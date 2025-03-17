@@ -1,1 +1,54 @@
+local player = game.Players.LocalPlayer
+local chatService = game:GetService("Chat")
 
+local messages = {
+    "Please consider donating! Every little bit helps!",
+    "I'm saving up for [Desired Item/Goal]. Any donations are appreciated!",
+    "If you enjoy my booth, please donate!",
+    "Donations make my day!",
+    "Thank you for your generosity!",
+    "I'm trying to reach [Robux Goal]. Help me get there!",
+    "Please donate, I'm trying to save up for [desired item/goal]",
+    "Any robux helps!",
+    "Consider donating if you are feeling generous!"
+}
+
+local function sendRandomMessage()
+    local randomIndex = math.random(1, #messages)
+    local message = messages[randomIndex]
+    chatService:Chat(player.Character or player, message, "All")
+end
+
+-- Send a message every 30 seconds (adjust as needed)
+while true do
+    wait(30)
+    sendRandomMessage()
+end
+
+-- Example of a clickable UI (does not force donations)
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DonationUI"
+screenGui.Parent = player.PlayerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0.5, -100, 0.8, -50)
+frame.BackgroundColor3 = Color3.new(1, 1, 1)
+frame.Parent = screenGui
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 0.5, 0)
+textLabel.Position = UDim2.new(0, 0, 0, 0)
+textLabel.Text = "Donate?"
+textLabel.BackgroundTransparency = 1
+textLabel.Parent = frame
+
+local donateButton = Instance.new("TextButton")
+donateButton.Size = UDim2.new(1, 0, 0.5, 0)
+donateButton.Position = UDim2.new(0, 0, 0.5, 0)
+donateButton.Text = "Donate"
+donateButton.Parent = frame
+
+donateButton.MouseButton1Click:Connect(function()
+    chatService:Chat(player.Character or player, "You can donate by clicking on my booth!", "All")
+end)
